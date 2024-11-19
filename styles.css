@@ -1,0 +1,85 @@
+
+body {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    
+    font-family: Helvetica;
+}
+
+/* Wrapper (Calculator) */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    width: 300px;
+    height: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+
+/* Screen */
+.screen {
+    background-color: #e6e6e6;
+    color: #333;
+    font-size: 2rem;
+    padding: 20px;
+    text-align: right;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-bottom: 1px solid #ccc;
+}
+
+/* Button Container */
+.container {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+/* Rows of Buttons */
+.buttons-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Space between buttons */
+}
+
+/* Buttons */
+.button {
+    background-color: #5896d0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.5rem;
+    flex: 1;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.button:hover {
+    background-color: #d9b224;
+}
+
+.button:active {
+    background-color: #d99d43;
+}
+
+/* Special Styling for Wider Buttons (e.g., 0 Button) */
+.button#zero {
+    flex: 2; /* Double width */
+    background: #d99d43;
+}
+
