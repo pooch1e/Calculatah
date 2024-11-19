@@ -70,11 +70,11 @@ body {
 }
 
 .button:hover {
-    background-color: #d9b224;
+    background-color: #e9991a;
 }
 
 .button:active {
-    background-color: #d99d43;
+    background-color: #e9991a;
 }
 
 /* Special Styling for Wider Buttons (e.g., 0 Button) */
@@ -84,7 +84,7 @@ body {
 }
 
 .orange {
-    background-color: #d99d43;
+    background-color: #e9991a;
 }
 
 .orange:hover {
@@ -92,5 +92,5 @@ body {
 }
 
 .orange:active {
-    background-color: #d99d43;
+    background-color: #e9991a;
 }
