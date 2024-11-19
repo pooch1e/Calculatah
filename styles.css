@@ -80,6 +80,17 @@ body {
 /* Special Styling for Wider Buttons (e.g., 0 Button) */
 .button#zero {
     flex: 2; /* Double width */
-    background: #d99d43;
+    /* background-color: #d99d43; */
 }
 
+.orange {
+    background-color: #d99d43;
+}
+
+.orange:hover {
+    background-color: #5896d0;;
+}
+
+.orange:active {
+    background-color: #d99d43;
+}
