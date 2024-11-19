@@ -48,11 +48,11 @@ $(".button").click((e) => {
     }
 
     //equals logic
-    if (operator === clickedButton.includes("=")) {
-        return answer = equals(firstNum, operator, secondNum);
-    }
-    //display returned number
-    $(".screen").html(answer);
+    // if (operator === clickedButton.includes("=")) {
+    //     return answer = equals(firstNum, operator, secondNum);
+    // }
+    // //display returned number
+    // $(".screen").html(answer);
 });
 
 // Clear the screen and reset everything
