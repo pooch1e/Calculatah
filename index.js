@@ -1,20 +1,11 @@
-//creating a calculator
-
-
-
-//store the clicked variable
 let clickedButton = [];
 let secondNumberArray = [];
-
-//variables
 let firstNum = "";
 let operator = "";
 let secondNum = "";
-let isSecondNumber = false; //check for an operator and move button presses to second array
-let answer = 0;
- 
-//captures button data and render to screen
+let isSecondNumber = false;
 
+// Handle button clicks
 $(".button").click((e) => {
     const buttonText = $(e.target).text();
 
@@ -24,38 +15,49 @@ $(".button").click((e) => {
         return;
     }
 
-    // find an operator
-    if (['+', '-', '*', '/'].includes(buttonText) && !isSecondNumber) {
-        operator = buttonText;         // Save operator
-        isSecondNumber = true;         // Switch to capturing the second number
-        $(".screen").html(clickedButton.join("") + operator); // Display operator
-        console.log(operator);
-        return; // Exit early to avoid duplicating this button press
+    // Handle special operators (% and +/-)
+    if (['%', '+/-'].includes(buttonText)) {
+        firstNum = applySpecialOperator(buttonText, firstNum);
+        $(".screen").html(firstNum);
+        return; // Exit to avoid further processing
     }
 
-    //second number logic
+    // Handle main operators (+, -, *, /)
+    if (['+', '-', '*', '/'].includes(buttonText)) {
+        if (isSecondNumber) {
+            // Calculate intermediate result
+            calculateIntermediateResult();
+        }
+        operator = buttonText;
+        isSecondNumber = true;
+        $(".screen").html(firstNum + operator);
+        return;
+    }
+
+    // Handle numbers
     if (isSecondNumber) {
-        secondNumberArray.push(buttonText); //pushing numbers to second array
-        secondNum = secondNumberArray.join(""); 
-        $(".screen").html(clickedButton.join("") + operator + secondNum); 
-        console.log("Second number", secondNum);
+        secondNumberArray.push(buttonText);
+        secondNum = secondNumberArray.join("");
+        secondNum.length = 8; //limit array to 8 numbers
+        $(".screen").html(firstNum + operator + secondNum);
     } else {
-        
         clickedButton.push(buttonText);
-        firstNum = clickedButton.join(""); 
-        $(".screen").html(firstNum); 
-        console.log("First NUmber", firstNum);
+        firstNum = clickedButton.join("");
+        firstNum.length = 8; //limit first num to 8 
+        $(".screen").html(firstNum);
     }
-
-    //equals logic
-    // if (operator === clickedButton.includes("=")) {
-    //     return answer = equals(firstNum, operator, secondNum);
-    // }
-    // //display returned number
-    // $(".screen").html(answer);
 });
 
-// Clear the screen and reset everything
+// Handle "=" button to compute final result
+$("#equals").click(() => {
+    if (operator && secondNum) {
+        calculateIntermediateResult();
+        $(".screen").html(firstNum); // Display final result
+        resetCalculation();
+    }
+});
+
+// Helper Functions
 function clearScreen() {
     clickedButton = [];
     secondNumberArray = [];
@@ -64,55 +66,48 @@ function clearScreen() {
     secondNum = "";
     isSecondNumber = false;
     $(".screen").html("");
-    console.log("Cleared all inputs");
 }
 
-//basic operations
-
-
-//create the operate button '='
-function equals(num1, operator, num2) {
-    switch (operator) {
-        case '+':
-            return addNum(num1, num2); // Pass arguments
-        case '-':
-            return subtractNum(num1, num2);
-        case '/':
-            return divideNum(num1, num2);
-        case '*':
-            return multiplyNum(num1, num2);
-        default:
-            return 'Invalid operator';
+function applySpecialOperator(op, num) {
+    const number = parseFloat(num) || 0;
+    if (op === '%') {
+        return (number / 100).toString();
     }
-
-    // Inner functions
-    function addNum(a, b) {
-        return a + b;
+    if (op === '+/-') {
+        return (-number).toString();
     }
-
-    function subtractNum(a, b) {
-        return a - b;
-    }
-
-    function divideNum(a, b) {
-        return a / b;
-    }
-
-    function multiplyNum(a, b) {
-        return a * b;
-    }
-
-
+    return num;
 }
 
-//reset data
-function reset() {
-    clickedButton = [];
+function calculateIntermediateResult() {
+    const num1 = parseFloat(firstNum) || 0;
+    const num2 = parseFloat(secondNum) || 0;
+    firstNum = performOperation(num1, operator, num2).toString();
+    operator = ""; // Reset operator after calculation
     secondNumberArray = [];
-    operator;
+    secondNum = "";
+    isSecondNumber = false;
 }
-//functionality for = button
-$("#equal").click()
 
+function performOperation(num1, op, num2) {
+    switch (op) {
+        case '+':
+            return num1 + num2;
+        case '-':
+            return num1 - num2;
+        case '*':
+            return num1 * num2;
+        case '/':
+            return num2 !== 0 ? num1 / num2 : "Error";
+        default:
+            return num1; // Default to num1 if no valid operator
+    }
+}
 
-
+function resetCalculation() {
+    clickedButton = [firstNum];
+    secondNumberArray = [];
+    operator = "";
+    secondNum = "";
+    isSecondNumber = false;
+}
